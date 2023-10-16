@@ -14,12 +14,16 @@ public class BirthDateUtils {
         return List.of(birthDate.getYear(), birthDate.getMonthValue(), birthDate.getDayOfMonth());
     }
 
-    public static boolean isValidBirthDate(LocalDateTime birthDate) {
+    private static boolean isAgeOver18(LocalDateTime birthDate) {
         long age = birthDate.until(LocalDateTime.now(), ChronoUnit.YEARS);
-        boolean isValidAge = age > 18;
+        return age > 18;
+    }
 
-        boolean isBeforToday = birthDate.isBefore(LocalDateTime.now());
+    private static boolean isValidDate(LocalDateTime birthDate) {
+        return birthDate.isBefore(LocalDateTime.now());
+    }
 
-        return isValidAge && isBeforToday;
+    public static boolean validateBirthDate(LocalDateTime birthDate) {
+        return isAgeOver18(birthDate) && isValidDate(birthDate);
     }
 }

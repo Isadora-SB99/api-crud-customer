@@ -15,10 +15,10 @@ public class CustomerUtils {
                 customerDto.birthMonth(),
                 customerDto.birthDay());
 
-        boolean isvalidBirthDate = BirthDateUtils.isValidBirthDate(birthDate);
+        boolean isValidDate = BirthDateUtils.validateBirthDate(birthDate);
 
-        if (!isvalidBirthDate) {
-            throw new IllegalArgumentException("Data de aniversário inválida");
+        if (!isValidDate) {
+            throw new RuntimeException("Data de aniversário inválida");
         }
 
         return new Customer(
