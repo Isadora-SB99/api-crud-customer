@@ -17,7 +17,7 @@ public class CustomerUtils {
 
         boolean isvalidBirthDate = BirthDateUtils.isValidBirthDate(birthDate);
 
-        if (!isvalidBirthDate){
+        if (!isvalidBirthDate) {
             throw new IllegalArgumentException("Data de aniversário inválida");
         }
 

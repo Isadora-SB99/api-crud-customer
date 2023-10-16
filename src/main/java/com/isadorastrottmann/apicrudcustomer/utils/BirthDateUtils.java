@@ -6,15 +6,15 @@ import java.util.List;
 
 public class BirthDateUtils {
 
-    public static LocalDateTime mountBirthDate(Integer birthYear, Integer birthMonth, Integer birthDay){
+    public static LocalDateTime mountBirthDate(Integer birthYear, Integer birthMonth, Integer birthDay) {
         return LocalDateTime.of(birthYear, birthMonth, birthDay, 00, 00);
     }
 
-    public static List<Integer> separateBirthDate(LocalDateTime birthDate){
+    public static List<Integer> separateBirthDate(LocalDateTime birthDate) {
         return List.of(birthDate.getYear(), birthDate.getMonthValue(), birthDate.getDayOfMonth());
     }
 
-    public static boolean isValidBirthDate(LocalDateTime birthDate){
+    public static boolean isValidBirthDate(LocalDateTime birthDate) {
         long age = birthDate.until(LocalDateTime.now(), ChronoUnit.YEARS);
         boolean isValidAge = age > 18;
 
