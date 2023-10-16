@@ -3,30 +3,39 @@ package com.isadorastrottmann.apicrudcustomer.utils;
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 
-public class CustomerUtils {
+import java.util.List;
 
-    public Customer dtoToCustomer(CustomerDto customerDto) {
+public class CustomerUtils {
+//    private BirthDateUtils birthDateUtils = new BirthDateUtils();
+
+    public static Customer dtoToCustomer(CustomerDto customerDto) {
         return new Customer(
                 customerDto.id(),
                 customerDto.name(),
                 customerDto.phoneNumber(),
-                customerDto.birthYear(),
-                customerDto.birthMonth(),
-                customerDto.birthDay(),
-//                customerDto.birthDate(),
+                BirthDateUtils.mountBirthDate(
+                        customerDto.birthYear(),
+                        customerDto.birthMonth(),
+                        customerDto.birthDay()),
                 customerDto.email(),
                 customerDto.password()
         );
     }
 
-    public CustomerDto customerToDto(Customer customer) {
+    public static CustomerDto customerToDto(Customer customer) {
+        List<Integer> birthDate = BirthDateUtils.
+                separateBirthDate(customer.getBirthDate());
+
         return new CustomerDto(
                 customer.getId(),
                 customer.getName(),
                 customer.getPhoneNumber(),
-                customer.getBirthYear(),
-                customer.getBirthMonth(),
-                customer.getBirthDay(),
+                birthDate.get(0),
+                birthDate.get(1),
+                birthDate.get(2),
+                //customer.getBirthYear(),
+                //customer.getBirthMonth(),
+                //customer.getBirthDay(),
 //                customer.getBirthDate(),
                 customer.getEmail(),
                 customer.getPassword()

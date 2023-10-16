@@ -2,26 +2,45 @@ package com.isadorastrottmann.apicrudcustomer.service;
 
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
+import com.isadorastrottmann.apicrudcustomer.repository.CustomerRepository;
 import com.isadorastrottmann.apicrudcustomer.utils.BirthDateUtils;
 import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CustomerService {
-    BirthDateUtils birthDateUtils = new BirthDateUtils();
-    CustomerUtils customerUtils = new CustomerUtils();
+//    BirthDateUtils birthDateUtils = new BirthDateUtils();
+//    CustomerUtils customerUtils = new CustomerUtils();
 
-    public Customer addCustomer(CustomerDto customerDto){
+    @Autowired
+    private CustomerRepository customerRepository;
 
-        boolean validBirthDate = birthDateUtils.isValidBirthDate(birthDateUtils.mountBirthDate(customerDto.birthYear(), customerDto.birthMonth(), customerDto.birthDay()));
+    //recebendo um dto e convertendo pra customer pra salvar
+    public Customer addCustomer(CustomerDto customerDto) {
+
+        //duplicação de codigo, converte também no customerUtils...
+        LocalDateTime birthDate = BirthDateUtils.mountBirthDate(customerDto.birthYear(), customerDto.birthMonth(), customerDto.birthDay());
+
+        boolean validBirthDate = BirthDateUtils.isValidBirthDate(birthDate);
 
         //otimizar esse if
-        if (!validBirthDate){
+        if (!validBirthDate) {
             throw new IllegalArgumentException();
         }
-            return customerUtils.dtoToCustomer(customerDto);
-
-
+        return CustomerUtils.dtoToCustomer(customerDto);
 
     }
+
+    public List<CustomerDto> getAll(){
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerUtils::customerToDto)
+                .toList();
+    }
+
+
 }
