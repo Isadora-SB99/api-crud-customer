@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -40,6 +41,11 @@ public class CustomerService {
                 .stream()
                 .map(CustomerUtils::customerToDto)
                 .toList();
+    }
+
+    public Optional<CustomerDto> getOne(String id){
+        return customerRepository.findById(id)
+                .map(CustomerUtils::customerToDto);
     }
 
 
