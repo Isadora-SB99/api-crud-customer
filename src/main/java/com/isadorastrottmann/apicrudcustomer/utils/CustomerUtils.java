@@ -3,20 +3,30 @@ package com.isadorastrottmann.apicrudcustomer.utils;
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CustomerUtils {
 //    private BirthDateUtils birthDateUtils = new BirthDateUtils();
 
     public static Customer dtoToCustomer(CustomerDto customerDto) {
+
+        LocalDateTime birthDate = BirthDateUtils.mountBirthDate(
+                customerDto.birthYear(),
+                customerDto.birthMonth(),
+                customerDto.birthDay());
+
+        boolean isvalidBirthDate = BirthDateUtils.isValidBirthDate(birthDate);
+
+        if (!isvalidBirthDate){
+            throw new IllegalArgumentException("Data de aniversário inválida");
+        }
+
         return new Customer(
                 customerDto.id(),
                 customerDto.name(),
                 customerDto.phoneNumber(),
-                BirthDateUtils.mountBirthDate(
-                        customerDto.birthYear(),
-                        customerDto.birthMonth(),
-                        customerDto.birthDay()),
+                birthDate,
                 customerDto.email(),
                 customerDto.password()
         );

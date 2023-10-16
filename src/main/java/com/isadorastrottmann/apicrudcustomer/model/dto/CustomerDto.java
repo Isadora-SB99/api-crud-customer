@@ -4,17 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CustomerDto {
-    String id;
-    String name;
-    String phoneNumber;
-    Integer birthYear;
-    Integer birthMonth;
-    Integer birthDay;
-    //        LocalDateTime birthDate;
-    String email;
-    String password;
+import java.time.LocalDateTime;
+
+public record CustomerDto (
+        String id,
+        String name,
+        String phoneNumber,
+        Integer birthYear,
+        Integer birthMonth,
+        Integer birthDay,
+//        LocalDateTime birthDate,
+        String email,
+        String password
+) {
 }
+
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//public class CustomerDto {
+//        String id;
+//        String name;
+//        String phoneNumber;
+//        Integer birthYear;
+//        Integer birthMonth;
+//        Integer birthDay;
+////        LocalDateTime birthDate;
+//        String email;
+//        String password;
+//}
