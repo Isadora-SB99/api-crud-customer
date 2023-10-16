@@ -18,7 +18,6 @@ public class BirthDateUtils {
         long age = birthDate.until(LocalDateTime.now(), ChronoUnit.YEARS);
         boolean isValidAge = age > 18;
 
-//        boolean isAfterToday = birthDate.isAfter(LocalDateTime.now());
         boolean isBeforToday = birthDate.isBefore(LocalDateTime.now());
 
         return isValidAge && isBeforToday;

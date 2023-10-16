@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CustomerUtils {
-//    private BirthDateUtils birthDateUtils = new BirthDateUtils();
 
     public static Customer dtoToCustomer(CustomerDto customerDto) {
 
@@ -43,10 +42,6 @@ public class CustomerUtils {
                 birthDate.get(0),
                 birthDate.get(1),
                 birthDate.get(2),
-                //customer.getBirthYear(),
-                //customer.getBirthMonth(),
-                //customer.getBirthDay(),
-//                customer.getBirthDate(),
                 customer.getEmail(),
                 customer.getPassword()
         );

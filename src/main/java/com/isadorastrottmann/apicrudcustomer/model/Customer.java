@@ -19,9 +19,6 @@ public class Customer {
     String id;
     String name;
     String phoneNumber;
-//    Integer birthYear;
-//    Integer birthMonth;
-//    Integer birthDay;
     LocalDateTime birthDate;
     @Email
     String email;

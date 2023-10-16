@@ -13,7 +13,6 @@ public record CustomerDto (
         Integer birthYear,
         Integer birthMonth,
         Integer birthDay,
-//        LocalDateTime birthDate,
         String email,
         String password
 ) {
@@ -29,7 +28,6 @@ public record CustomerDto (
 //        Integer birthYear;
 //        Integer birthMonth;
 //        Integer birthDay;
-////        LocalDateTime birthDate;
 //        String email;
 //        String password;
 //}
