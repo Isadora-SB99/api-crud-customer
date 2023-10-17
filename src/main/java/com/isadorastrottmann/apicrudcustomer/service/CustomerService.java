@@ -18,7 +18,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
-        //pode dar illegal argument... TRATAR
+        //@TODO pode dar illegal argument...
         var customer = CustomerUtils.dtoToCustomer(customerDto);
         customerRepository.insert(customer);
         var customerToDto = CustomerUtils.customerToDto(customer);
@@ -34,7 +34,7 @@ public class CustomerService {
                 .toList();
 
         return customerList.isEmpty() ?
-                ResponseEntity.noContent().build()
+                ResponseEntity.notFound().build()
                 : ResponseEntity.ok(customerList);
     }
 

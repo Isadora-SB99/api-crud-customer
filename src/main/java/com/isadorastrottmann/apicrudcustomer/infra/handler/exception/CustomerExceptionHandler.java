@@ -1,4 +1,4 @@
-package com.isadorastrottmann.apicrudcustomer.exception.handler;
+package com.isadorastrottmann.apicrudcustomer.infra.handler.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
