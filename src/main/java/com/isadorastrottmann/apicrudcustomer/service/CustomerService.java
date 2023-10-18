@@ -1,5 +1,6 @@
 package com.isadorastrottmann.apicrudcustomer.service;
 
+import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.repository.CustomerRepository;
 import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
@@ -26,12 +27,12 @@ public class CustomerService {
         return ResponseEntity.ok(customerToDto);
     }
 
-    public ResponseEntity<List<CustomerDto>> getAll() {
+    public ResponseEntity<List<Customer>> getAll() {
         var customerList = customerRepository
-                .findAll()
-                .stream()
-                .map(CustomerUtils::customerToDto)
-                .toList();
+                .findAll();
+//                .stream()
+//                .map(CustomerUtils::customerToDto)
+//                .toList();
 
         return customerList.isEmpty() ?
                 ResponseEntity.notFound().build()

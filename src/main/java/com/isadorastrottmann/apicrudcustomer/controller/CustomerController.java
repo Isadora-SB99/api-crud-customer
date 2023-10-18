@@ -1,5 +1,6 @@
 package com.isadorastrottmann.apicrudcustomer.controller;
 
+import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +44,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
 
     })
-    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         return customerService.getAll();
     }
 
