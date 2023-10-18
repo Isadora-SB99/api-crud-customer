@@ -7,6 +7,7 @@ import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,21 +19,23 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
-        //@TODO pode dar illegal argument...
-        var customer = CustomerUtils.dtoToCustomer(customerDto);
-        customerRepository.insert(customer);
-        var customerToDto = CustomerUtils.customerToDto(customer);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        return ResponseEntity.ok(customerToDto);
+    public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
+        //@TODO pode dar illegal argument... ?
+        var customer = CustomerUtils.dtoToCustomer(customerDto);
+        customer.setPassword(passwordEncoder.encode(customerDto.password()));
+        customerRepository.insert(customer);
+
+        var dto = CustomerUtils.customerToDto(customer);
+
+        return ResponseEntity.ok(dto);
     }
 
     public ResponseEntity<List<Customer>> getAll() {
         var customerList = customerRepository
                 .findAll();
-//                .stream()
-//                .map(CustomerUtils::customerToDto)
-//                .toList();
 
         return customerList.isEmpty() ?
                 ResponseEntity.notFound().build()
@@ -79,6 +82,4 @@ public class CustomerService {
             return ResponseEntity.noContent().build();
         }
     }
-
-
 }

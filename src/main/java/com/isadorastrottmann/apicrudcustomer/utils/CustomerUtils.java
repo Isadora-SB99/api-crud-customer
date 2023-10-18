@@ -21,15 +21,6 @@ public class CustomerUtils {
             throw new RuntimeException("Data de aniversário inválida");
         }
 
-//        return new Customer(
-//                customerDto.id(),
-//                customerDto.name(),
-//                customerDto.phoneNumber(),
-//                birthDate,
-//                customerDto.email(),
-//                customerDto.password()
-//        );
-
         return new Customer.Builder()
                 .id(customerDto.id())
                 .name(customerDto.name())
