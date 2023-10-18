@@ -23,8 +23,9 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
-        //@TODO pode dar illegal argument... ?
+        //@TODO pode dar illegal argument... ???
         var customer = CustomerUtils.dtoToCustomer(customerDto);
+        // @TODO trocar criptografia de lugar (colocar no utils)
         customer.setPassword(passwordEncoder.encode(customerDto.password()));
         customerRepository.insert(customer);
 
@@ -33,9 +34,12 @@ public class CustomerService {
         return ResponseEntity.ok(dto);
     }
 
-    public ResponseEntity<List<Customer>> getAll() {
+    public ResponseEntity<List<CustomerDto>> getAll() {
         var customerList = customerRepository
-                .findAll();
+                .findAll()
+                .stream()
+                .map(CustomerUtils::customerToDto)
+                .toList();
 
         return customerList.isEmpty() ?
                 ResponseEntity.notFound().build()

@@ -7,14 +7,19 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Document(collection = "customers")
 @Data
 @AllArgsConstructor//(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class Customer {
+public class Customer implements UserDetails {
     @Id
     String id;
     String name;
@@ -77,6 +82,38 @@ public class Customer {
         public Customer build() {
             return new Customer(this);
         }
+    }
+
+    // metodos do userDetails. identifica essa classe como sendo a classe User
+    // usado pela classe que gera o jwt
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }

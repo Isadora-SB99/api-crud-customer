@@ -44,7 +44,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
 
     })
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
         return customerService.getAll();
     }
 
