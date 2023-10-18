@@ -1,9 +1,11 @@
 package com.isadorastrottmann.apicrudcustomer.model;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -18,7 +20,7 @@ public class Customer {
     String name;
     String phoneNumber;
     LocalDateTime birthDate;
-    @Email
+    @Indexed(unique = true)
     String email;
     String password;
 

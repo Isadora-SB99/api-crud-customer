@@ -19,7 +19,7 @@ public record CustomerDto(
         Integer birthDay,
         @NotNull(message = "Email não pode estar vazio")
         @Email
-        String email, //validar unique
+        String email,
         @NotNull(message = "Senha não pode estar vazia")
         String password
 ) {
