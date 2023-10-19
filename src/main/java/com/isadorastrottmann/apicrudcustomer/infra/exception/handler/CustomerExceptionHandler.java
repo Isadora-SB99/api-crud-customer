@@ -1,5 +1,7 @@
 package com.isadorastrottmann.apicrudcustomer.infra.exception.handler;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +29,16 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> MethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getDetailMessageArguments());
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<?> JWTVerificationException(JWTVerificationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(JWTCreationException.class)
+    public ResponseEntity<?> JWTCreationException(JWTCreationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
 }
