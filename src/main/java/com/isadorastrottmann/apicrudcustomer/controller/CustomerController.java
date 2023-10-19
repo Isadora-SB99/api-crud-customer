@@ -1,6 +1,5 @@
 package com.isadorastrottmann.apicrudcustomer.controller;
 
-import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,9 +28,9 @@ public class CustomerController {
             @ApiResponse(responseCode = "200", description = "Customer Saved Successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
-
     })
-    public @ResponseBody ResponseEntity<CustomerDto> postCustomer(@RequestBody @Valid CustomerDto customerDto) {
+    public @ResponseBody ResponseEntity<CustomerDto> postCustomer(
+            @RequestBody @Valid CustomerDto customerDto) {
         return customerService.addCustomer(customerDto);
     }
 
@@ -42,7 +41,6 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Customer List Was Not Found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
-
     })
     public ResponseEntity<List<CustomerDto>> getAllCustomers() {
         return customerService.getAll();
@@ -55,7 +53,6 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Customer Was Not Found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
-
     })
     public ResponseEntity<Optional<CustomerDto>> getOneCustomer(@PathVariable String id) {
         return customerService.getOne(id);
@@ -68,7 +65,6 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Customer Was Not Found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
-
     })
     public ResponseEntity<CustomerDto> updateCustomer(@RequestBody @Valid CustomerDto customerDto, @PathVariable String id) {
         return customerService.update(customerDto, id);
@@ -81,7 +77,6 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Customer Was Not Found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
-
     })
     public ResponseEntity<Void> deleteCustomer(@PathVariable String id) {
         return customerService.delete(id);

@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openApi(){
+    public OpenAPI openApi() {
         return new OpenAPI().info(getInfo());
     }
 
-    private Info getInfo(){
+    private Info getInfo() {
         return new Info()
                 .title("Customer Crud Api")
                 .version("1.0.0")

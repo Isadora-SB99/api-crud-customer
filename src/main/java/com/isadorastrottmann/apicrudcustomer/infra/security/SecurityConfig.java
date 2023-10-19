@@ -28,15 +28,15 @@ public class SecurityConfig {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-//                                .requestMatchers(HttpMethod.DELETE, "/customer/**").authenticated()
-//                                .requestMatchers("/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/customer").permitAll()
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .headers(header -> header.
-                        frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/customer").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**").permitAll()
+                        .anyRequest().authenticated())
+                .headers(header -> header.frameOptions(
+                        HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

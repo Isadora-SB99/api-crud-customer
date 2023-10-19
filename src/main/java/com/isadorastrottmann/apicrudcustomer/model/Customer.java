@@ -1,9 +1,9 @@
 package com.isadorastrottmann.apicrudcustomer.model;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Document(collection = "customers")
 @Data
-@AllArgsConstructor//(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor
 public class Customer implements UserDetails {
     @Id
@@ -29,8 +29,8 @@ public class Customer implements UserDetails {
     String email;
     String password;
 
-//    construtor de customer recebendo customer Builder
-    private Customer(Builder builder){
+    // construtor de customer recebendo customer Builder
+    private Customer(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.phoneNumber = builder.phoneNumber;
@@ -39,6 +39,7 @@ public class Customer implements UserDetails {
         this.password = builder.password;
     }
 
+    // classe interna de builder
     public static class Builder {
         private String id;
         private String name;
@@ -47,11 +48,7 @@ public class Customer implements UserDetails {
         private String email;
         private String password;
 
-        //cria um Builder com os metodos obrigatórios
-//        public Builder() {
-//        }
-
-        //adiciona atributo opicional
+        // adiciona atributo opicional
         public Builder id(String id) {
             this.id = id;
             return this;
@@ -61,18 +58,22 @@ public class Customer implements UserDetails {
             this.name = name;
             return this;
         }
+
         public Builder phoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
             return this;
         }
+
         public Builder birthDate(LocalDateTime birthDate) {
             this.birthDate = birthDate;
             return this;
         }
+
         public Builder email(String email) {
             this.email = email;
             return this;
         }
+
         public Builder password(String password) {
             this.password = password;
             return this;
@@ -115,5 +116,4 @@ public class Customer implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

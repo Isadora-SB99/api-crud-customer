@@ -39,18 +39,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                     user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
         filterChain.doFilter(request, response);
     }
 
     private String retrieveToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-
-//        if (authorizationHeader != null){
-//            return authorizationHeader.replace("Bearer ", "");
-//        }
-//
-//        return null;
 
         return authorizationHeader != null ?
                 authorizationHeader.replace("Bearer ", "")

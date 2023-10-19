@@ -33,7 +33,6 @@ public class TokenService {
     }
 
     // recupera o usuario "dono" do token
-    // o projeto de inspiração usa num security filter...
     public String getSubject(String tokenJwt) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
@@ -49,7 +48,6 @@ public class TokenService {
 
     // define a data de expiração do token pra 4 horas depois da hora em que for gerado
     private Instant expirationDate() {
-//        return LocalDateTime.now().plusHours(4).toInstant(ZoneOffset.of("-03:00"));
         return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
     }
 }

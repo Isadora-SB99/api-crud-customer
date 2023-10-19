@@ -1,6 +1,5 @@
 package com.isadorastrottmann.apicrudcustomer.service;
 
-import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.repository.CustomerRepository;
 import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
@@ -23,12 +22,11 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
-        //@TODO pode dar illegal argument... ???
+        // @TODO retorno pode ser de erro, se tiver alguma informação faltando... ???
         var customer = CustomerUtils.dtoToCustomer(customerDto);
         // @TODO trocar criptografia de lugar (colocar no utils)
         customer.setPassword(passwordEncoder.encode(customerDto.password()));
         customerRepository.insert(customer);
-
         var dto = CustomerUtils.customerToDto(customer);
 
         return ResponseEntity.ok(dto);
