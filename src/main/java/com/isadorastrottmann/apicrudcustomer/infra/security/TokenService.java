@@ -46,7 +46,7 @@ public class TokenService {
         }
     }
 
-    // define a data de expiração do token pra 4 horas depois da hora em que for gerado
+    // define a data de expiração do token pra 15 minutos depois da hora em que for gerado
     private Instant expirationDate() {
         return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
     }
