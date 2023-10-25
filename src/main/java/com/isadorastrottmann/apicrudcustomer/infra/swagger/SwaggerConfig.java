@@ -17,7 +17,7 @@ public class SwaggerConfig {
                 .info(getInfo());
     }
 
-    private Components getComponents(){
+    private Components getComponents() {
         return new Components()
                 .addSecuritySchemes("bearer-key",
                         new SecurityScheme()
