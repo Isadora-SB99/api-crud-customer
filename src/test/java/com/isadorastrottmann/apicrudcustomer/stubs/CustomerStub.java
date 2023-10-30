@@ -1,4 +1,4 @@
-package com.isadorastrottmann.apicrudcustomer.service.stubs;
+package com.isadorastrottmann.apicrudcustomer.stubs;
 
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
 

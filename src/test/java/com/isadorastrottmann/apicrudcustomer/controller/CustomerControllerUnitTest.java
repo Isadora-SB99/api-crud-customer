@@ -2,7 +2,7 @@ package com.isadorastrottmann.apicrudcustomer.controller;
 
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.service.CustomerService;
-import com.isadorastrottmann.apicrudcustomer.service.stubs.CustomerStub;
+import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
 import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class CustomerControllerTest {
+class CustomerControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,6 +1,6 @@
 package com.isadorastrottmann.apicrudcustomer.repository;
 
-import com.isadorastrottmann.apicrudcustomer.service.stubs.CustomerStub;
+import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

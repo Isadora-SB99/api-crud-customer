@@ -1,6 +1,6 @@
 package com.isadorastrottmann.apicrudcustomer.model;
 
-import com.isadorastrottmann.apicrudcustomer.service.stubs.CustomerStub;
+import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
