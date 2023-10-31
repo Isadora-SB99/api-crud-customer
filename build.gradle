@@ -45,6 +45,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+
 }
 
 test {
