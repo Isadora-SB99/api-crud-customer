@@ -23,9 +23,7 @@ class CustomerTest {
                 .build();
 
         assertEquals("isadora 6", customer.getName());
-
         assertEquals(stub, customer);
-
     }
 
 }

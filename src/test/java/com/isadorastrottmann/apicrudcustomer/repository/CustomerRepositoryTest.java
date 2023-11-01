@@ -17,28 +17,6 @@ class CustomerRepositoryTest {
     @Autowired
     private CustomerRepository customerRepository;
 
-//    @AfterEach
-//    void deleteCustomer(){
-//     customerRepository.delete(CustomerStub.getNewCustomerStub());
-//    }
-
-//    @Test
-//    void shouldNotInsertUSerWithSameEmail() {
-//        var customer = CustomerStub.getCustomerStub();
-//        customerRepository.insert(customer);
-//
-//        Integer countCustomers = customerRepository.findAll().size();
-//        assertEquals(1, countCustomers);
-//    }
-
-//    @Test
-//    void shouldInsertUSer() {
-//        var customer = CustomerStub.getNewCustomerStub();
-//
-//        Integer countCustomers = customerRepository.findAll().size();
-//        assertEquals(5, countCustomers);
-//    }
-
     @Test
     void shouldFindCustomerByEmail() {
         var customer = CustomerStub.getNewCustomerStub();

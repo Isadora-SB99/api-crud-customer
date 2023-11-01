@@ -7,16 +7,6 @@ import java.time.LocalDateTime;
 public class CustomerStub {
 
     public static Customer getCustomerStub() {
-        /*
-        "id": "653118b804b700754f509c8c",
-        "name": "isadora 6",
-        "phoneNumber": "51 97965-4231",
-        "birthYear": 1999,
-        "birthMonth": 9,
-        "birthDay": 23,
-        "email": "isadora6@email.com",
-        "password": "$2a$10$S2kG6U61wYHZ/SW580GOTe23xlrNp8BFHCkIzXT.aFaHw8aGpJuV."
-        */
         return new Customer.Builder()
                 .id("653118b804b700754f509c8c")
                 .name("isadora 6")
@@ -37,6 +27,4 @@ public class CustomerStub {
                 .password("123456")
                 .build();
     }
-
-
 }

@@ -26,7 +26,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CustomerControllerIntegrationTest {
+public class CustomerControllerTest {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -107,8 +107,7 @@ public class CustomerControllerIntegrationTest {
                 .exchange("/customer",
                         HttpMethod.GET,
                         httpEntity,
-                        new ParameterizedTypeReference<List<CustomerDto>>() {
-                        });//https://www.appsdeveloperblog.com/get-list-of-objects-with-testresttemplate/
+                        new ParameterizedTypeReference<List<CustomerDto>>() {});
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
