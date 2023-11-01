@@ -1,40 +1,40 @@
 package com.isadorastrottmann.apicrudcustomer.service;
 
+import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
+import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatusCode;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
+    @InjectMocks
     private CustomerService customerService;
 
-//    void shouldReturnAlreadyExists(){
-//        /*public ResponseEntity<CustomerDto> addCustomer(@Valid CustomerDto customerDto) {
-//        var customer = CustomerUtils.dtoToCustomer(customerDto);
-//        customer.setPassword(passwordEncoder.encode(customerDto.password()));
-//        customerRepository.insert(customer);
-//        var dto = CustomerUtils.customerToDto(customer);
-//
-//        return ResponseEntity.ok(dto);
-//    }*/
-//
-//        var expected = ResponseEntity.badRequest();
-//
+/*    @Test
+    void shouldInsertCustomer(){
+        var expected = HttpStatusCode.valueOf(200);
+
+        var customerDto = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
+        var response = customerService.addCustomer(customerDto);
+
+        assertEquals(expected, response.getStatusCode());
+    }*/
+
+/*    @Test
+    void getOneCustomer(){
 //        var customerDto = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
-//        var response = customerService.addCustomer(customerDto);
-//
-//    }
+//        ResponseEntity<Optional<CustomerDto>> expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
 
-//    @Test
-//    void getOneCustomer(){
-////        var customerDto = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
-////        ResponseEntity<Optional<CustomerDto>> expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
-//
-//        var expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
-//
-//        var response = customerService.getOne("653118b804b700754f509c8c").getBody().get();
-//
-//        assertEquals(expected, response);
-//    }
+        var expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
 
+        var response = customerService.getOne("653118b804b700754f509c8c").getBody().get();
+
+        assertEquals(expected, response);
+    }*/
 }
