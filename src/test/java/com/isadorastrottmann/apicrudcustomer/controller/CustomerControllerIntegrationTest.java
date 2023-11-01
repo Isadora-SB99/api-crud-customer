@@ -1,31 +1,39 @@
 package com.isadorastrottmann.apicrudcustomer.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isadorastrottmann.apicrudcustomer.infra.security.TokenService;
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
 import com.isadorastrottmann.apicrudcustomer.model.dto.CustomerDto;
 import com.isadorastrottmann.apicrudcustomer.repository.CustomerRepository;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS) //executa os testes como classe, não como metodo. "O JUnit 5 cria uma instância da classe para cada teste, com isso, a anotação é necessária para poder manter um estado da classe"
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //roda os testes em uma porta aleatória pra não gerar conflito caso a aplicaçao já esteja rodando
-//@SpringBootTest //deu erro/problema com o TestRestTemplate (?)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CustomerControllerIntegrationTest {
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    //@TODO pesquisar sobre o TestRestTemplate
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -33,24 +41,32 @@ public class CustomerControllerIntegrationTest {
     @Autowired
     private TokenService tokenService;
 
-    Customer customer;
+    static Customer customer;
+
+    static HttpHeaders headers = new HttpHeaders();
+
 
     @BeforeAll
-    public void start() {
-        this.customer = new Customer.Builder()
-                .name("isadora test 2")
-                .phoneNumber("51 98763 2154")
-                .birthDate(LocalDateTime.of(1999,9,23,00,00))
-                .email("isadoraTest2@email.com")
+    public static void start() {
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accept", "application/json");
+
+        customer = new Customer.Builder()
+                .id(new ObjectId().toString())
+                .name("isadora test 4")
+                .phoneNumber("51 91234-5678")
+                .birthDate(LocalDateTime.of(1999, 9, 23, 0, 0))
+                .email("isadoraTest4@email.com")
                 .password("123456")
                 .build();
     }
 
-    public HttpHeaders authorizationHeader() {
-        HttpHeaders headers = new HttpHeaders();
+    @AfterEach
+    public void deleteCustomer() {
+        customerRepository.delete(customer);
+    }
 
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
+    public HttpHeaders addAuthorizationHeader() {
         var customer = customerRepository.findById("652fe2877bb4a6422a0b5e6c").get();
         var token = tokenService.generateToken(customer);
 
@@ -58,78 +74,94 @@ public class CustomerControllerIntegrationTest {
         return headers;
     }
 
-    @AfterEach
-    public void deleteCustomer() {
-        customerRepository.delete(this.customer);
-    }
-
     @Test
-    void shouldPostCustomer() {
-//        CustomerDto dto = new CustomerDto(null, "isadora test 3", "51 98765 4321", 1999, 9, 23, "isadoraTest3@email.com", "123456");
-//
-//        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(dto);
-//
-//        var response = this.testRestTemplate
-//                .exchange("/customer", HttpMethod.POST, httpEntity, CustomerDto.class);
-//
-//        assertEquals(response.getStatusCode(), HttpStatus.OK);
-////        assertEquals(response.getBody().name(), "isadora test 3");
-//        assertEquals(Objects.requireNonNull(response.getBody()).name(), "isadora test 3");
+    void shouldPostCustomer() throws JsonProcessingException {
+        var id = new ObjectId().toString();
+        CustomerDto dto = new CustomerDto(
+                id,
+                "isadora test " + id,
+                "51 98765-4321",
+                1999,
+                9,
+                23,
+                "isadoraTest" + id + "@email.com",
+                "123456");
+
+        var jsonDto = objectMapper.writeValueAsString(dto); //formata o objeto recebido em json e converte pra string
+
+        var httpEntity = new HttpEntity<>(jsonDto, headers);
+
+        var response = this.testRestTemplate.postForEntity("/customer", httpEntity, String.class);
+        var jsonBody = response.getBody();
+        var customerResponseJson = objectMapper.readTree(jsonBody);
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(customerResponseJson.path("name").asText(), "isadora test " + id);
     }
 
     @Test
     void shouldGetAllCustomers() {
-//        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(authorizationHeader());
-//
-//
-//        var response = this.testRestTemplate
-//                .exchange("/customer", HttpMethod.GET, httpEntity, CustomerDto.class);
-//
-//        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(addAuthorizationHeader());
+
+        var response = this.testRestTemplate
+                .exchange("/customer",
+                        HttpMethod.GET,
+                        httpEntity,
+                        new ParameterizedTypeReference<List<CustomerDto>>() {
+                        });//https://www.appsdeveloperblog.com/get-list-of-objects-with-testresttemplate/
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
     void shouldGetOneCustomer() {
-//        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(authorizationHeader());
-//
-//        var savedCustomer = this.customerRepository.save(this.customer);
-//
-//        var response = this.testRestTemplate
-//                .exchange("/customer/" + savedCustomer.getId(), HttpMethod.GET, httpEntity, CustomerDto.class);
-//
-//        assertEquals(response.getStatusCode(), HttpStatus.OK);
-//        assertEquals(response.getBody().email(), "isadoraTest2@email.com");
+        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(addAuthorizationHeader());
+
+        var savedCustomer = this.customerRepository.save(customer);
+
+        var response = this.testRestTemplate
+                .exchange("/customer/" + savedCustomer.getId(), HttpMethod.GET, httpEntity, CustomerDto.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(Objects.requireNonNull(response.getBody()).email(), "isadoraTest4@email.com");
     }
 
     @Test
-    void shouldUpdateCustomer() {
-//        var savedCustomer = this.customerRepository.save(this.customer);
-//
-//        CustomerDto dto = new CustomerDto(null, "isadora test 3", "51 98765 4321", 1999, 9, 23, "isadoraTest3@email.com", "123456");
-//
-//        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(dto, authorizationHeader());
-//
-//        var response = this.testRestTemplate
-//                .exchange("/customer/" + savedCustomer.getId(), HttpMethod.PUT, httpEntity, CustomerDto.class);
-//
-//        assertEquals(response.getStatusCode(), HttpStatus.OK);
-//        assertEquals(response.getBody().name(), "isadora test 3");
-//        assertEquals(response.getBody().email(), "isadoraTest3@email.com");
+    void shouldUpdateCustomer() throws JsonProcessingException {
+        var savedCustomer = this.customerRepository.save(customer);
 
+        CustomerDto dto = new CustomerDto(
+                savedCustomer.getId(),
+                "isadora test 3",
+                "51 98765-4321",
+                1999,
+                9,
+                23,
+                "isadoraTest3@email.com",
+                "123456");
+
+        String jsonDto = objectMapper.writeValueAsString(dto);
+
+        var httpEntity = new HttpEntity<>(jsonDto, addAuthorizationHeader());
+
+        var response = this.testRestTemplate.exchange("/customer/" + savedCustomer.getId(), HttpMethod.PUT, httpEntity, String.class);
+        var jsonBody = response.getBody();
+        JsonNode customerResponseJson = objectMapper.readTree(jsonBody);
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(customerResponseJson.path("name").asText(), "isadora test 3");
+        assertEquals(customerResponseJson.path("email").asText(), "isadoraTest3@email.com");
     }
 
     @Test
     void shouldDeleteCustomer() {
-//        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(authorizationHeader());
-//
-//        var savedCustomer = this.customerRepository.save(this.customer);
-//
-//        var response = this.testRestTemplate
-//                .exchange("/customer/" + savedCustomer.getId(), HttpMethod.DELETE, httpEntity, CustomerDto.class);
-//
-//        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        HttpEntity<CustomerDto> httpEntity = new HttpEntity<>(addAuthorizationHeader());
 
+        var savedCustomer = this.customerRepository.save(customer);
+
+        var response = this.testRestTemplate
+                .exchange("/customer/" + savedCustomer.getId(), HttpMethod.DELETE, httpEntity, CustomerDto.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
     }
-
-
 }
