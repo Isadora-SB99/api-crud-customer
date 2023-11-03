@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class CustomerStub {
 
-    public static Customer getCustomerStub() {
+    public static Customer getExistingCustomerStub() {
         return new Customer.Builder()
                 .id("653118b804b700754f509c8c")
                 .name("isadora 6")
@@ -27,4 +27,17 @@ public class CustomerStub {
                 .password("123456")
                 .build();
     }
+
+    public static Customer getContractCustomerStub() {
+        return new Customer.Builder()
+                .id("6544eb3d73500c59611341c9")
+                .name("isadora 9")
+                .phoneNumber("51 98765-4321")
+                .birthDate(LocalDateTime.of(1999, 9, 23, 00, 00))
+                .email("isadora9@email.com")
+                .password("123456")
+                .build();
+    }
+
+
 }

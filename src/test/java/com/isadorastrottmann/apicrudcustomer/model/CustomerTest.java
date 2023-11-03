@@ -1,17 +1,21 @@
 package com.isadorastrottmann.apicrudcustomer.model;
 
 import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CustomerTest {
 
     @Test
     void customerBuilderTest() {
-        var stub = CustomerStub.getCustomerStub();
+        var stub = CustomerStub.getExistingCustomerStub();
 
         var customer = new Customer.Builder()
                 .id("653118b804b700754f509c8c")
@@ -25,5 +29,4 @@ class CustomerTest {
         assertEquals("isadora 6", customer.getName());
         assertEquals(stub, customer);
     }
-
 }
