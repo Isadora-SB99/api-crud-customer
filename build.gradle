@@ -54,6 +54,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation 'org.mockito:mockito-junit-jupiter'
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
@@ -69,14 +70,34 @@ dependencies {
     pitest 'com.groupcdg.arcmutate:arcmutate-spring:0.0.10'
 }
 
-test {
-    useJUnitPlatform()
-    testClassesDirs = sourceSets.test.output.classesDirs
-    finalizedBy jacocoTestReport
+//    https://www.jetbrains.com/help/idea/2022.1/work-with-gradle-projects.html#tests_with_source_set
+sourceSets {
+    testes {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+    }
 }
+
+task testes(type: Test) {
+    description = "Hopefully Runs Tests"
+    testClassesDirs = sourceSets.testes.output.classesDirs
+    classpath += sourceSets.testes.runtimeClasspath
+}
+
+//test {
+//    useJUnitPlatform()
+//    testClassesDirs = sourceSets.test.output.classesDirs
+//    finalizedBy jacocoTestReport
+//}
 
 jacocoTestReport {
 //    dependsOn test
+    dependsOn testes
     reports {
         xml.required = false
         csv.required = false

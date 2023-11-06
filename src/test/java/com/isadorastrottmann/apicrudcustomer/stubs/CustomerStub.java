@@ -1,6 +1,7 @@
 package com.isadorastrottmann.apicrudcustomer.stubs;
 
 import com.isadorastrottmann.apicrudcustomer.model.Customer;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
 
@@ -35,6 +36,29 @@ public class CustomerStub {
                 .phoneNumber("51 98765-4321")
                 .birthDate(LocalDateTime.of(1999, 9, 23, 00, 00))
                 .email("isadora9@email.com")
+                .password("123456")
+                .build();
+    }
+
+    public static Customer getCustomerNoIdStub() {
+        return new Customer.Builder()
+                .id("")
+                .name("isadora")
+                .phoneNumber("51 987654321")
+                .birthDate(LocalDateTime.of(1999, 9, 23, 0, 0))
+                .email("isadora@email.com")
+                .password("123456")
+                .build();
+    }
+
+    public static Customer getRandomIdCustomer(){
+        var id = new ObjectId().toString();
+        return new Customer.Builder()
+                .id(id)
+                .name("isadora "+id)
+                .phoneNumber("51 98765-4321")
+                .birthDate(LocalDateTime.of(1999, 9, 23, 00, 00))
+                .email("isadora"+id+"@email.com")
                 .password("123456")
                 .build();
     }

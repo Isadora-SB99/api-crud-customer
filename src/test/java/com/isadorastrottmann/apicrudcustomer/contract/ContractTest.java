@@ -9,13 +9,12 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class ContractTest {
 //    private final Logger log = LoggerFactory.getLogger(this.getClass());
 //
-//    @InjectMocks
+//    @Autowired
 //    private CustomerRepository customerRepository;
 //
 //    @Autowired
@@ -30,7 +29,7 @@ public class ContractTest {
 //
 //        given()
 //                .header("Authorization", "Bearer "+token)
-//                .when().get("http://localhost:8080/customer/")
+//                .when().get("http://localhost:8080/customer")
 //                .then().statusCode(200)
 //                .body(matchesJsonSchemaInClasspath("schemaExample.json"));
 //    }
