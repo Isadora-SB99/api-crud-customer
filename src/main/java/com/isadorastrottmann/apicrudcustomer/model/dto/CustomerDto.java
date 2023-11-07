@@ -14,7 +14,7 @@ public record CustomerDto(
         String name,
 
         @JsonProperty("phoneNumber")
-        @Pattern(regexp = "^(\\+55\\s)?\\(?(?:[1-9]{2})\\)?\\s?\\d{4,5}-?\\d{4}$",
+        @Pattern(regexp = "^(\\+55\\s)?\\(?[1-9]{2}\\)?\\s?9?\\d{4}-?\\d{4}$",
                 message = "Formato de número de telefone inválido")
         String phoneNumber,
 

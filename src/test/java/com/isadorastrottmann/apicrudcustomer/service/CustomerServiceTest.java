@@ -2,43 +2,96 @@ package com.isadorastrottmann.apicrudcustomer.service;
 
 import com.isadorastrottmann.apicrudcustomer.stubs.CustomerDtoStub;
 import com.isadorastrottmann.apicrudcustomer.stubs.CustomerStub;
-import com.isadorastrottmann.apicrudcustomer.utils.CustomerUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
+@SpringBootTest //cria o contexto da aplicação spring e injeta as dependencias
 class CustomerServiceTest {
 
-//    @InjectMocks
-//    private CustomerService customerService;
-//
-//// reclmando do encoder null
-//    @Test
-//    void shouldInsertCustomer(){
-//        var expected = HttpStatusCode.valueOf(200);
-//
-//        var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
-//        var response = customerService.addCustomer(customerDto);
-//
-//        assertEquals(expected, response.getStatusCode());
-//    }
+    @Autowired
+    private CustomerService customerService;
 
-/*    @Test
-    void getOneCustomer(){
-//        var customerDto = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
-//        ResponseEntity<Optional<CustomerDto>> expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
+    @Test
+    void shouldInsertCustomer(){
+        var expected = HttpStatusCode.valueOf(200);
 
-        var expected = CustomerUtils.customerToDto(CustomerStub.getCustomerStub());
+        var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
+        var response = customerService.addCustomer(customerDto);
+
+        assertEquals(expected, response.getStatusCode());
+        assertEquals(customerDto.email(), response.getBody().email());
+    }
+
+    @Test
+    void shouldNotInsertCustomerWithWrongPhoneFormat(){
+        var customerDto = CustomerDtoStub.getWrongPhoneCustomerDtoSutb();
+
+        assertThrows(RuntimeException.class, () -> customerService.addCustomer(customerDto));
+    }
+
+    @Test
+    void shouldNotInsertCustomerWithInvalidBirthDate(){
+        var customerDto = CustomerDtoStub.getInvalidBirthDateCustomerDtoSutb();
+
+        assertThrows(RuntimeException.class, () -> customerService.addCustomer(customerDto));
+    }
+
+    @Test
+    void shouldGetOneCustomer(){
+        var expected = CustomerStub.getExistingCustomerStub();
 
         var response = customerService.getOne("653118b804b700754f509c8c").getBody().get();
 
+        assertEquals(expected.getEmail(), response.email());
+    }
+
+    @Test
+    void shouldNotGetCustomerThatDoesNotExist(){
+        var expected = HttpStatusCode.valueOf(404);
+
+        var response = customerService.getOne("1234").getStatusCode();
+
         assertEquals(expected, response);
-    }*/
+    }
+
+    @Test
+    void shouldUpdateCustomer(){
+        var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
+        var newCustomerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
+        var status = HttpStatusCode.valueOf(200);
+
+        customerService.addCustomer(customerDto);
+
+        var response = customerService.update(newCustomerDto, customerDto.id());
+
+        assertEquals(status, response.getStatusCode());
+        assertEquals(newCustomerDto.phoneNumber(), response.getBody().phoneNumber());
+    }
+
+    @Test
+    void shouldRemoveCustomer(){
+        var expected = HttpStatusCode.valueOf(204);
+
+        var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
+        customerService.addCustomer(customerDto);
+
+        var response = customerService.delete(customerDto.id()).getStatusCode();
+
+        assertEquals(expected, response);
+    }
+
+    @Test
+    void shouldNotRemoveCustomer(){
+        var expected = HttpStatusCode.valueOf(404);
+
+        var response = customerService.delete("12345").getStatusCode();
+
+        assertEquals(expected, response);
+    }
 }

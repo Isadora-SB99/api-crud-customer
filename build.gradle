@@ -7,6 +7,8 @@ plugins {
     id 'jacoco'
 }
 
+apply plugin: 'info.solidsoft.pitest'
+
 group = 'com.isadorastrottmann'
 version = '1.0.0'
 
@@ -22,25 +24,6 @@ configurations {
 
 repositories {
     mavenCentral()
-}
-
-sonar {
-    properties {
-        property "sonar.projectKey", "customerCrud"
-        property "sonar.projectName", "customerCrud"
-    }
-}
-
-pitest {
-    //adds dependency to org.pitest:pitest-junit5-plugin and sets "testPlugin" to "junit5"
-    junit5PluginVersion = '1.2.1'
-    pitestVersion = '1.15.2'
-    // ...
-}
-
-jacoco {
-    toolVersion = "0.8.11"
-//    reportsDir = file("*/build/jacoco")
 }
 
 dependencies {
@@ -67,7 +50,9 @@ dependencies {
     testImplementation 'io.rest-assured:json-schema-validator:5.3.2'
 //    testImplementation 'io.rest-assured:spring-mock-mvc:5.3.2'
 
-    pitest 'com.groupcdg.arcmutate:arcmutate-spring:0.0.10'
+    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
+    pitest 'org.example.pit.plugins:pitest-custom-plugin:0.42'
+//    pitest 'com.groupcdg.arcmutate:arcmutate-spring:0.0.10'
 }
 
 //    https://www.jetbrains.com/help/idea/2022.1/work-with-gradle-projects.html#tests_with_source_set
@@ -87,11 +72,18 @@ task testes(type: Test) {
     description = "Hopefully Runs Tests"
     testClassesDirs = sourceSets.testes.output.classesDirs
     classpath += sourceSets.testes.runtimeClasspath
+
+    systemProperty 'spring.test.constructor.autowire.mode', 'all'
+
+    finalizedBy jacocoTestReport
 }
 
 //test {
 //    useJUnitPlatform()
 //    testClassesDirs = sourceSets.test.output.classesDirs
+
+//systemProperty 'spring.test.constructor.autowire.mode', 'all'
+
 //    finalizedBy jacocoTestReport
 //}
 
@@ -103,4 +95,29 @@ jacocoTestReport {
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
+}
+
+
+sonar {
+    properties {
+        property "sonar.projectKey", "customerCrud"
+        property "sonar.projectName", "customerCrud"
+    }
+}
+
+pitest {
+//    targetClasses = ['our.base.package.*']  //by default "${project.group}.*"
+//    pitestVersion = '1.15.0' //not needed when a default PIT version should be used
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+//    junit5PluginVersion = '1.0.0'
+    junit5PluginVersion = '1.2.1'
+    testSourceSets = [sourceSets.testes]
+    jvmArgs = ['-Dspring.test.constructor.autowire.mode=all']
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+//    reportsDir = file("*/build/jacoco")
 }

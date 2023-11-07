@@ -25,4 +25,18 @@ class CustomerUtilsTest {
 
         assertEquals(expected, response);
     }
+
+    @Test
+    void shouldReturnTrueForValidPhoneNumber(){
+        var response = CustomerUtils.validatePhoneNumber(CustomerDtoStub.getRandomIdCustomerDtoSutb());
+
+        assertTrue(response);
+    }
+
+    @Test
+    void shouldReturnFalseForInvalidPhoneNumber(){
+        var response = CustomerUtils.validatePhoneNumber(CustomerDtoStub.getWrongPhoneCustomerDtoSutb());
+
+        assertFalse(response);
+    }
 }

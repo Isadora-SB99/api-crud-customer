@@ -16,9 +16,14 @@ public class CustomerUtils {
                 customerDto.birthDay());
 
         boolean isValidDate = BirthDateUtils.validateBirthDate(birthDate);
+        boolean isValidPhoneNumber = CustomerUtils.validatePhoneNumber(customerDto);
 
         if (!isValidDate) {
             throw new RuntimeException("Data de aniversário inválida");
+        }
+
+        if(!isValidPhoneNumber){
+            throw new RuntimeException("Formato de número de telefone inválido");
         }
 
         return new Customer.Builder()
@@ -45,5 +50,11 @@ public class CustomerUtils {
                 customer.getEmail(),
                 customer.getPassword()
         );
+    }
+
+    public static boolean validatePhoneNumber(CustomerDto customerDto){
+        var phoneNumber = customerDto.phoneNumber();
+
+        return phoneNumber.matches("^(\\+55\\s)?\\(?[1-9]{2}\\)?\\s?9?\\d{4}-?\\d{4}$");
     }
 }
