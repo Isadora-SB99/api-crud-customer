@@ -48,11 +48,9 @@ dependencies {
 
     testImplementation 'io.rest-assured:rest-assured:5.3.2'
     testImplementation 'io.rest-assured:json-schema-validator:5.3.2'
-//    testImplementation 'io.rest-assured:spring-mock-mvc:5.3.2'
 
     implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
     pitest 'org.example.pit.plugins:pitest-custom-plugin:0.42'
-//    pitest 'com.groupcdg.arcmutate:arcmutate-spring:0.0.10'
 }
 
 //    https://www.jetbrains.com/help/idea/2022.1/work-with-gradle-projects.html#tests_with_source_set
@@ -106,12 +104,9 @@ sonar {
 }
 
 pitest {
-//    targetClasses = ['our.base.package.*']  //by default "${project.group}.*"
-//    pitestVersion = '1.15.0' //not needed when a default PIT version should be used
     threads = 4
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
-//    junit5PluginVersion = '1.0.0'
     junit5PluginVersion = '1.2.1'
     testSourceSets = [sourceSets.testes]
     jvmArgs = ['-Dspring.test.constructor.autowire.mode=all']
@@ -119,5 +114,4 @@ pitest {
 
 jacoco {
     toolVersion = "0.8.11"
-//    reportsDir = file("*/build/jacoco")
 }

@@ -1,7 +1,6 @@
 package com.isadorastrottmann.apicrudcustomer.utils;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +11,7 @@ class BirthDateUtilsTest {
 
     @Test
     void shouldReturnBirthDate() {
-        var expected = LocalDateTime.of(1999,9,23,0,0);
+        var expected = LocalDateTime.of(1999, 9, 23, 0, 0);
 
         int year = 1999;
         int month = 9;
@@ -24,9 +23,9 @@ class BirthDateUtilsTest {
 
     @Test
     void shouldReturnListOfInts() {
-        var expected = List.of(1999,9,23);
+        var expected = List.of(1999, 9, 23);
 
-        var birthDate = LocalDateTime.of(1999,9,23,0,0);
+        var birthDate = LocalDateTime.of(1999, 9, 23, 0, 0);
         var response = BirthDateUtils.separateBirthDate(birthDate);
 
         assertEquals(expected, response);
@@ -34,7 +33,7 @@ class BirthDateUtilsTest {
 
     @Test
     void shouldReturnTrueForValidBirthDate() {
-        var birthDate = LocalDateTime.of(1999,9,23,0,0);
+        var birthDate = LocalDateTime.of(1999, 9, 23, 0, 0);
 
         assertTrue(BirthDateUtils.validateBirthDate(birthDate));
     }

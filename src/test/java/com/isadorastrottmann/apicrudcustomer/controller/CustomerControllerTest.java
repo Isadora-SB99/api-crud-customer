@@ -45,7 +45,6 @@ public class CustomerControllerTest {
 
     static HttpHeaders headers = new HttpHeaders();
 
-
     @BeforeAll
     public static void start() {
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -107,7 +106,8 @@ public class CustomerControllerTest {
                 .exchange("/customer",
                         HttpMethod.GET,
                         httpEntity,
-                        new ParameterizedTypeReference<List<CustomerDto>>() {});
+                        new ParameterizedTypeReference<List<CustomerDto>>() {
+                        });
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }

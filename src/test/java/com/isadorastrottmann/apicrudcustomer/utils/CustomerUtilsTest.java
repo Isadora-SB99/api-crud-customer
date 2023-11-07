@@ -27,14 +27,14 @@ class CustomerUtilsTest {
     }
 
     @Test
-    void shouldReturnTrueForValidPhoneNumber(){
+    void shouldReturnTrueForValidPhoneNumber() {
         var response = CustomerUtils.validatePhoneNumber(CustomerDtoStub.getRandomIdCustomerDtoSutb());
 
         assertTrue(response);
     }
 
     @Test
-    void shouldReturnFalseForInvalidPhoneNumber(){
+    void shouldReturnFalseForInvalidPhoneNumber() {
         var response = CustomerUtils.validatePhoneNumber(CustomerDtoStub.getWrongPhoneCustomerDtoSutb());
 
         assertFalse(response);

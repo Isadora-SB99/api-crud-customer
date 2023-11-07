@@ -10,15 +10,14 @@ import org.springframework.http.HttpStatusCode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-//@ExtendWith(MockitoExtension.class)
-@SpringBootTest //cria o contexto da aplicação spring e injeta as dependencias
+@SpringBootTest
 class CustomerServiceTest {
 
     @Autowired
     private CustomerService customerService;
 
     @Test
-    void shouldInsertCustomer(){
+    void shouldInsertCustomer() {
         var expected = HttpStatusCode.valueOf(200);
 
         var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
@@ -29,21 +28,21 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldNotInsertCustomerWithWrongPhoneFormat(){
+    void shouldNotInsertCustomerWithWrongPhoneFormat() {
         var customerDto = CustomerDtoStub.getWrongPhoneCustomerDtoSutb();
 
         assertThrows(RuntimeException.class, () -> customerService.addCustomer(customerDto));
     }
 
     @Test
-    void shouldNotInsertCustomerWithInvalidBirthDate(){
+    void shouldNotInsertCustomerWithInvalidBirthDate() {
         var customerDto = CustomerDtoStub.getInvalidBirthDateCustomerDtoSutb();
 
         assertThrows(RuntimeException.class, () -> customerService.addCustomer(customerDto));
     }
 
     @Test
-    void shouldGetOneCustomer(){
+    void shouldGetOneCustomer() {
         var expected = CustomerStub.getExistingCustomerStub();
 
         var response = customerService.getOne("653118b804b700754f509c8c").getBody().get();
@@ -52,7 +51,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldNotGetCustomerThatDoesNotExist(){
+    void shouldNotGetCustomerThatDoesNotExist() {
         var expected = HttpStatusCode.valueOf(404);
 
         var response = customerService.getOne("1234").getStatusCode();
@@ -61,7 +60,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldUpdateCustomer(){
+    void shouldUpdateCustomer() {
         var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
         var newCustomerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
         var status = HttpStatusCode.valueOf(200);
@@ -75,7 +74,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldRemoveCustomer(){
+    void shouldRemoveCustomer() {
         var expected = HttpStatusCode.valueOf(204);
 
         var customerDto = CustomerDtoStub.getRandomIdCustomerDtoSutb();
@@ -87,7 +86,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldNotRemoveCustomer(){
+    void shouldNotRemoveCustomer() {
         var expected = HttpStatusCode.valueOf(404);
 
         var response = customerService.delete("12345").getStatusCode();

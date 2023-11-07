@@ -51,14 +51,14 @@ public class CustomerStub {
                 .build();
     }
 
-    public static Customer getRandomIdCustomer(){
+    public static Customer getRandomIdCustomer() {
         var id = new ObjectId().toString();
         return new Customer.Builder()
                 .id(id)
-                .name("isadora "+id)
+                .name("isadora " + id)
                 .phoneNumber("51 98765-4321")
                 .birthDate(LocalDateTime.of(1999, 9, 23, 00, 00))
-                .email("isadora"+id+"@email.com")
+                .email("isadora" + id + "@email.com")
                 .password("123456")
                 .build();
     }

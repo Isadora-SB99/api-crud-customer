@@ -23,12 +23,12 @@ public class CustomerDtoStub {
         var id = new ObjectId().toString();
         return new CustomerDto(
                 id,
-                "isadora "+id,
+                "isadora " + id,
                 "51 99876-5432",
                 1999,
                 9,
                 23,
-                "isadora"+id+"@email.com",
+                "isadora" + id + "@email.com",
                 "123456");
     }
 
@@ -36,12 +36,12 @@ public class CustomerDtoStub {
         var id = new ObjectId().toString();
         return new CustomerDto(
                 id,
-                "isadora "+id,
+                "isadora " + id,
                 "51 6587432",
                 1999,
                 9,
                 23,
-                "isadora"+id+"@email.com",
+                "isadora" + id + "@email.com",
                 "123456");
     }
 
@@ -49,12 +49,12 @@ public class CustomerDtoStub {
         var id = new ObjectId().toString();
         return new CustomerDto(
                 id,
-                "isadora "+id,
+                "isadora " + id,
                 "51 987654321",
                 LocalDateTime.now().getYear(),
                 9,
                 23,
-                "isadora"+id+"@email.com",
+                "isadora" + id + "@email.com",
                 "123456");
     }
 

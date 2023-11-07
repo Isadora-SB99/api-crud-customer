@@ -18,7 +18,6 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    // gera o token jwt, com issuer, email do usuario e data de expiração
     public String generateToken(Customer customer) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
@@ -32,7 +31,6 @@ public class TokenService {
         }
     }
 
-    // recupera o usuario "dono" do token
     public String getSubject(String tokenJwt) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
@@ -46,7 +44,6 @@ public class TokenService {
         }
     }
 
-    // define a data de expiração do token pra 15 minutos depois da hora em que for gerado
     private Instant expirationDate() {
         return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
     }
