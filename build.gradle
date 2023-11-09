@@ -40,19 +40,20 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation 'org.mockito:mockito-junit-jupiter'
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
+    testImplementation'org.junit.jupiter:junit-jupiter:5.9.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testRuntimeOnly'org.junit.platform:junit-platform-launcher'
 
-    testImplementation 'io.rest-assured:rest-assured:5.3.2'
-    testImplementation 'io.rest-assured:json-schema-validator:5.3.2'
+    //essas são pro teste de contrato que eu tinha tentado, mas que deu errado
+//    testImplementation 'io.rest-assured:rest-assured:5.3.2'
+//    testImplementation 'io.rest-assured:json-schema-validator:5.3.2'
 
     implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
     pitest 'org.example.pit.plugins:pitest-custom-plugin:0.42'
 }
 
+//simula uma tarefa de testes (?)
 //    https://www.jetbrains.com/help/idea/2022.1/work-with-gradle-projects.html#tests_with_source_set
 sourceSets {
     testes {
@@ -65,7 +66,7 @@ sourceSets {
         compileClasspath += sourceSets.main.runtimeClasspath
     }
 }
-
+//ainda simulando uma tarefa de testes
 task testes(type: Test) {
     description = "Hopefully Runs Tests"
     testClassesDirs = sourceSets.testes.output.classesDirs
@@ -85,6 +86,10 @@ task testes(type: Test) {
 //    finalizedBy jacocoTestReport
 //}
 
+jacoco {
+    toolVersion = "0.8.11"
+}
+
 jacocoTestReport {
 //    dependsOn test
     dependsOn testes
@@ -94,7 +99,6 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
-
 
 sonar {
     properties {
@@ -110,8 +114,4 @@ pitest {
     junit5PluginVersion = '1.2.1'
     testSourceSets = [sourceSets.testes]
     jvmArgs = ['-Dspring.test.constructor.autowire.mode=all']
-}
-
-jacoco {
-    toolVersion = "0.8.11"
 }
